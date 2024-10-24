@@ -90,7 +90,7 @@
             right: -1260px;
             transition: right 0.3s ease;
             z-index: 9900;
-            box-shadow: 0 4px 4px #00aaff;
+            box-shadow: 0 4px 4px #000000;
         }
         .sidebar.open {
             right: 0;
@@ -123,16 +123,16 @@
             right: 10px;
             z-index: 99910;
             cursor: pointer;
-            background-color: #00aaff;
+            background-color: #000000;
             color: #fff;
-	    box-shadow: 0 0px 4px #00aaff;
+	    box-shadow: 0 0px 4px #000000;
             padding: 10px 15px;
             border-radius: 5px;
             transition: background-color 0.3s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .menu-toggle:hover {
-            background-color: #00aaff;
+            background-color: #000000;
         }
 
         /* Main content styles */
@@ -142,7 +142,7 @@
 
         /* Footer styles */
         footer {
-            background-color: #00aaff;
+            background-color: #000000;
             color: #ffffff;
             text-align: center;
             padding: 20px 0;
@@ -173,34 +173,34 @@
     display: block;
     padding: 12px 20px;
     text-decoration: none;
-    color: #00aaff;
+    color: #000000;
     transition: background-color 0.3s, color 0.3s; /* Transisi untuk perubahan warna */
 }
 
 .sidebar ul li a:hover {
     background-color: #555555; /* Warna latar belakang saat hover */
-    color: #00aaff; /* Warna teks saat hover */
+    color: #000000; /* Warna teks saat hover */
 }
 a {
-	color: #00aaff;
+	color: #000000;
 	}
 .main-content h1 {
-    color: #00aaff; /* Warna teks judul */
+    color: #000000; /* Warna teks judul */
 }
 .main-content h2 {
-    color: #00aaff; /* Warna teks judul */
+    color: #000000; /* Warna teks judul */
 }
 .main-content h3 {
-    color: #00aaff; /* Warna teks judul */
+    color: #000000; /* Warna teks judul */
 }
 .main-content h4 {
-    color: #00aaff; /* Warna teks judul */
+    color: #000000; /* Warna teks judul */
 }
 b {
-    color: #00aaff; /* Warna teks judul */
+    color: #000000; /* Warna teks judul */
 }	
 .menu-toggle {
-    background-color: #00aaff;
+    background-color: #000000;
     color: #ffffff;
     padding: 10px 15px;
     border-radius: 5px;
@@ -209,7 +209,7 @@ b {
 }
 
 .menu-toggle:hover {
-    background-color: #00aaff;
+    background-color: #000000;
     color: #fff; /* Warna teks saat tombol dihover */
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
@@ -238,7 +238,78 @@ b {
 <body>
 	
 <span style="color:#fff;" class="{{layout}}" ></span>
-	
+	<div id="labelContainer">
+  <button id="toggleButton" onclick="toggleLabels()" style="background: transparent; border: 1px solid #ccc00000; padding: 10px; cursor: pointer;">
+    .
+  </button>
+  <div id="labelList" style="display: none;"></div> <!-- Hidden by default -->
+</div>
+
+<script>
+  function rak_info_Load(data) {
+    const entries = data.feed.entry;
+    const labelSet = new Set();
+
+    // Loop through each post to collect labels
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+
+      // Check if the post has categories (labels)
+      if (entry.category) {
+        entry.category.forEach(cat => {
+          labelSet.add(cat.term);  // Menambahkan label ke Set untuk menghindari duplikasi
+        });
+      }
+    }
+
+    // Convert Set to Array and sort labels alphabetically
+    const sortedLabels = Array.from(labelSet).sort();
+
+    // Group labels into paragraphs of 10
+    const labelList = document.getElementById("labelList");
+    labelList.innerHTML = ''; // Clear existing content
+
+    for (let i = 0; i < sortedLabels.length; i += 10) {
+      // Slice array into chunks of 10
+      const labelGroup = sortedLabels.slice(i, i + 10);
+      const paragraph = document.createElement("p");
+
+      // Join labels with commas and append them as a paragraph
+      paragraph.innerHTML = labelGroup.join(', ');
+      labelList.appendChild(paragraph);
+    }
+  }
+
+  // Function to toggle the visibility of the label list
+  function toggleLabels() {
+    const labelList = document.getElementById("labelList");
+    const toggleButton = document.getElementById("toggleButton");
+
+    if (labelList.style.display === "none") {
+      labelList.style.display = "block";
+      toggleButton.textContent = "Hide Labels";
+    } else {
+      labelList.style.display = "none";
+      toggleButton.textContent = "Show Labels";
+    }
+  }
+
+  // Load the Blogger feed without pagination
+  const script = document.createElement("script");
+  script.src = "https://nok-narti.blogspot.com/feeds/posts/default/?start-index=1&max-results=50&alt=json-in-script&callback=rak_info_Load";
+  document.body.appendChild(script);
+</script>
+
+<!-- Optional CSS for further button styling -->
+<style>
+  #toggleButton {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  #toggleButton:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Slight darkening on hover */
+    color: #333; /* Change text color on hover */
+  }
+</style>
 
     
 	    <script>
@@ -337,40 +408,6 @@ b {
     
     
     
-<a id="show_id" onclick="document.getElementById('spoiler_id').style.display=''; document.getElementById('show_id').style.display='none';"></a><span id="spoiler_id" style="display: none;"><a class="link" onclick="document.getElementById('spoiler_id').style.display='none'; document.getElementById('show_id').style.display='';"></a>
-<div style="background-color: rgba(0, 0, 0, 0); margin: 1px;">
-<div class="smallfont"><i><span style="font-size: 16px; font-weight: bold; margin-right: 3px;"></span></i><input onclick="if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = ''; this.innerText = ''; this.value = 'Hide'; } else { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none'; this.innerText = ''; this.value = 'new posts'; }" style="background-color: #00000000; font-size: 16px; width: auto;" type="button" value="new posts" />
-</div>
-<div class="alt2" style="background-color: rgba(255, 255, 255, 0); margin: 0px; padding: 0px;">
-<div style="display: none;" loading="lazy">
-
-
-	<!-- Categories Jumbotron
-================================================== -->
-<div class="jumbotron fortags" >
-	<div class="d-md-flex h-100">
-		<div class="col-md-4 transpdark align-self-center text-center h-100">
-            <div class="d-md-flex align-items-center justify-content-center h-100">
-                <h2 class="d-md-block align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
-            </div>
-		</div>
-		<div class="col-md-8 p-5 align-self-center text-center">
-            {% assign categories_list = site.categories %}
-            {% if categories_list.first[0] == null %}
-                {% for category in categories_list %}
-                    <a class="mt-1 mb-1" href="{{site.baseurl}}/categories#{{ category | url_escape | strip | replace: ' ', '-' }}">{{ category | camelcase }} ({{ site.tags[category].size }})</a>
-                {% endfor %}
-            {% else %}
-                {% for category in categories_list %}
-                    <a class="mt-1 mb-1" href="{{site.baseurl}}/categories#{{ category[0] | url_escape | strip | replace: ' ', '-' }}">{{ category[0] | camelcase }} ({{ category[1].size }})</a>
-                {% endfor %}
-            {% endif %}
-            {% assign categories_list = nil %}
-		</div>
-	</div>
-</div>
-
-	</div></div></div></span>
 
 
 
@@ -815,7 +852,7 @@ b {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background-color: #00aaff;
+      background-color: #000000;
       color: #ffffff;
       padding: 10px;
       border-radius: 40%;
@@ -927,12 +964,7 @@ b {
 	
 
 
-<script type="text/javascript">
-   var uid = '342117';
-   var wid = '717034';
-   var pop_tag = document.createElement('script');pop_tag.src='//cdn.popcash.net/show.js';document.body.appendChild(pop_tag);
-   pop_tag.onerror = function() {pop_tag = document.createElement('script');pop_tag.src='//cdn2.popcash.net/show.js';document.body.appendChild(pop_tag)};
-</script>
+
 
 		
 
